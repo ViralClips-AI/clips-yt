@@ -341,7 +341,7 @@ function ensureASRWorker() {
   return asrWorker;
 }
 
-function sendWorkerMessage(payload, transfer = [], timeoutMs = 45000) {
+function sendWorkerMessage(payload, transfer = [], timeoutMs = 60000, onProgress = null) {
   const worker = ensureASRWorker();
   const id = Math.random().toString(36).slice(2);
 
@@ -354,8 +354,8 @@ function sendWorkerMessage(payload, transfer = [], timeoutMs = 45000) {
     const onMsg = event => {
       const data = event.data;
       if (!data || data.id !== id) return;
-      if (data.type === 'progress' && payload.onProgress) {
-        payload.onProgress(data.pct);
+      if (data.type === 'progress') {
+        if (typeof onProgress === 'function') onProgress(data.pct);
         return;
       }
       clearTimeout(timer);
@@ -391,10 +391,12 @@ async function makeSubtitles() {
     await yieldToUI();
 
     if (!workerReady) {
-      await sendWorkerMessage({
-        type: 'init',
-        onProgress: pct => setStatus('Descargando modelo de voz…', pct)
-      });
+      await sendWorkerMessage(
+        { type: 'init' },
+        [],
+        60000,
+        pct => setStatus('Descargando modelo de voz…', pct)
+      );
       workerReady = true;
     }
 
