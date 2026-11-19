@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clips.yt</title>
+<style>
+:root{--green:#b9f5d0;--blue:#c5e8ff;--dark:#17251e}
+*{box-sizing:border-box}
+body{margin:0;background:#f5faf7;color:var(--dark);font-family:Arial,sans-serif}
+header{padding:22px 7%;display:flex;justify-content:space-between;align-items:center;background:white;border-bottom:1px solid #e4eee8;position:sticky;top:0;z-index:5}
+.logo{font-size:26px;font-weight:900}.logo span{color:#35a96a}
+nav a{margin-left:22px;color:#263c30;text-decoration:none;font-weight:bold}
+main{max-width:1100px;margin:auto;padding:35px 20px}
+.hero{text-align:center;padding:45px 15px;background:linear-gradient(120deg,var(--green),var(--blue));border-radius:24px}
+h1{font-size:42px;margin:5px 0 12px}.hero p{font-size:17px}
+.panel{background:white;padding:24px;border-radius:18px;margin-top:22px;box-shadow:0 5px 22px #183c2010}
+h2{margin-top:0}
+button,.upload{border:0;border-radius:10px;padding:12px 17px;background:#238b56;color:white;font-weight:bold;cursor:pointer;margin:5px}
+button.secondary{background:#dff3e7;color:#17452b}
+button:disabled{opacity:.5;cursor:not-allowed}
+input,select,textarea{padding:11px;border:1px solid #d4e2d9;border-radius:9px;font:inherit;max-width:100%}
+input[type=text],input[type=url]{width:min(100%,500px)}
+textarea{width:100%;min-height:75px}
+video{width:100%;max-height:430px;background:#111;border-radius:12px;margin-top:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.field{display:flex;flex-direction:column;gap:7px;margin:10px 0}
+.status{background:#eff8f2;padding:13px;border-radius:10px;white-space:pre-wrap;overflow-wrap:anywhere}
+.small{font-size:13px;color:#617268}
+a{color:#16804a}
+footer{text-align:center;padding:30px;color:#708078}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">Clips<span>.yt</span></div>
+ <nav><a href="#inicio">Inicio</a><a href="#crear">Crear clips</a></nav>
+</header>
+<main>
+<section class="hero" id="inicio">
+ <h1>Convierte tus vídeos en clips</h1>
+ <p>Prepara vídeos verticales para TikTok, YouTube Shorts e Instagram Reels.</p>
+ <a href="#crear"><button>EMPEZAR A CREAR</button></a>
+</section>
+
+<section class="panel" id="crear">
+<h2>1. Añade tu vídeo</h2>
+<div class="grid">
+ <div class="field">
+  <label><b>Subir vídeo desde el ordenador</b></label>
+  <input id="archivo" type="file" accept="video/*">
+ </div>
+ <div class="field">
+  <label><b>O pega un enlace de YouTube</b></label>
+  <input id="youtube" type="url" placeholder="https://www.youtube.com/watch?v=...">
+  <button class="secondary" id="verYoutube">PREVISUALIZAR YOUTUBE</button>
+ </div>
+</div>
+<div id="youtubeBox"></div>
+<video id="video" controls playsinline></video>
+<p class="small">Para editar y exportar necesitas subir el archivo de vídeo. La previsualización de YouTube no permite descargar ni editar directamente el vídeo.</p>
+</section>
+
+<section class="panel">
+<h2>2. Encuentra los mejores momentos</h2>
+<div class="grid">
+ <div class="field"><label>Duración del clip</label>
+ <select id="duracion"><option value="15">15 segundos</option><option value="30" selected>30 segundos</option><option value="45">45 segundos</option><option value="60">60 segundos</option></select></div>
+ <div class="field"><label>Formato</label><select disabled><option>Vertical 9:16</option></select></div>
+</div>
+<button id="detectar" class="secondary">DETECTAR 3 MOMENTOS</button>
+<div id="momentos" class="status">Sube un vídeo para empezar.</div>
+<div class="grid">
+ <div class="field"><label>Inicio (segundos)</label><input id="inicioClip" type="number" min="0" step=".1" value="0"></div>
+ <div class="field"><label>Final (segundos)</label><input id="finalClip" type="number" min="0" step=".1" value="30"></div>
+</div>
+</section>
+
+<section class="panel">
+<h2>3. Subtítulos</h2>
+<div class="grid">
+ <div class="field"><label>Idioma del audio</label>
+ <select id="idioma">
+ <option value="auto">Detectar automáticamente</option>
+ <option value="spanish">Español</option>
+ <option value="english">Inglés</option>
+ <option value="french">Francés</option>
+ <option value="arabic">Árabe</option>
+ <option value="portuguese">Portugués</option>
+ </select></div>
+ <div class="field"><label>Tamaño de letra</label><input id="tamano" type="number" min="20" max="90" value="48"></div>
+ <div class="field"><label>Color de letra</label><input id="color" type="color" value="#ffffff"></div>
+ <div class="field"><label>Fondo de subtítulos</label>
+ <select id="fondo"><option value="outline">Borde negro estilo CapCut</option><option value="box">Fondo negro</option></select></div>
+</div>
+<button id="transcribir" class="secondary">GENERAR SUBTÍTULOS AUTOMÁTICOS</button>
+<p class="small">La primera vez se descarga un modelo de reconocimiento de voz. Puede tardar bastante y consumir memoria.</p>
+<div class="field"><label>Texto de subtítulos (puedes corregirlo)</label><textarea id="textoSub" placeholder="Aquí aparecerá la transcripción..."></textarea></div>
+<div id="estadoSub" class="status">Esperando vídeo.</div>
+</section>
+
+<section class="panel">
+<h2>4. Exportar vídeo MP4</h2>
+<p>Se generará un vídeo vertical 9:16 con subtítulos integrados.</p>
+<button id="exportar">EXPORTAR CLIP MP4</button>
+<div id="estado" class="status">Listo para exportar.</div>
+<a id="descarga" style="display:none" download="clips-yt.mp4">DESCARGAR MP4</a>
+</section>
+</main>
+<footer>Clips.yt · Herramienta gratuita en tu navegador</footer>
+
+<script type="module">
+import { FFmpeg } from "https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js";
+import { fetchFile, toBlobURL } from "https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/esm/index.js";
+
+const $ = id => document.getElementById(id);
+const video=$("video");
+let videoURL=null, ffmpeg=null, palabras=[], modelo=null;
+
+function estado(t){$("estado").textContent=t}
+function estadoSub(t){$("estadoSub").textContent=t}
+function tiempo(n){return Math.max(0,Number(n)||0)}
+function cargarArchivo(file){
+ if(!file)return;
+ if(videoURL)URL.revokeObjectURL(videoURL);
+ videoURL=URL.createObjectURL(file);
+ video.src=videoURL;
+ video.load();
+ video.onloadedmetadata=()=>{
+  $("inicioClip").value=0;
+  $("finalClip").value=Math.min(30,video.duration).toFixed(1);
+  $("momentos").textContent="Vídeo cargado. Duración: "+video.duration.toFixed(1)+" segundos.";
+  estadoSub("Vídeo preparado para generar subtítulos.");
+ };
+ $("youtubeBox").innerHTML="";
+}
+$("archivo").addEventListener("change",e=>cargarArchivo(e.target.files[0]));
+
+$("verYoutube").onclick=()=>{
+ const url=$("youtube").value.trim();
+ const match=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([A-Za-z0-9_-]{11})/);
+ if(!match){$("youtubeBox").textContent="Introduce un enlace válido de YouTube.";return}
+ $("youtubeBox").innerHTML='<iframe width="100%" height="300" style="border:0;border-radius:12px" allowfullscreen src="https://www.youtube-nocookie.com/embed/'+match[1]+'"></iframe><p class="small">Esto es solo una previsualización. Sube el archivo original para editarlo.</p>';
+};
+
+async function analizarAudio(){
+ if(!videoURL)throw new Error("Primero sube un vídeo desde tu ordenador.");
+ const dur=video.duration;
+ const audioCtx=new AudioContext();
+ const response=await fetch(videoURL);
+ const buffer=await audioCtx.decodeAudioData(await response.arrayBuffer());
+ const canal=buffer.getChannelData(0);
+ const paso=Math.max(1,Math.floor(buffer.sampleRate*.5));
+ let energia=[];
+ for(let i=0;i<canal.length;i+=paso){
+  let suma=0,n=Math.min(paso,canal.length-i);
+  for(let j=0;j<n;j++)suma+=canal[i+j]*canal[i+j];
+  energia.push({t:i/buffer.sampleRate,v:Math.sqrt(suma/n)});
+ }
+ await audioCtx.close();
+ return {energia,dur};
+}
+
+$("detectar").onclick=async()=>{
+ try{
+  $("detectar").disabled=true;
+  $("momentos").textContent="Analizando el volumen del vídeo...";
+  const {energia,dur}=await analizarAudio();
+  const longitud=Number($("duracion").value);
+  const candidatos=[];
+  const ventana=Math.max(1,Math.floor(longitud/0.5));
+  for(let i=0;i<energia.length-ventana;i+=Math.max(1,Math.floor(ventana/2))){
+   const trozo=energia.slice(i,i+ventana);
+   const media=trozo.reduce((a,b)=>a+b.v,0)/trozo.length;
+   candidatos.push({inicio:energia[i].t,puntuacion:media});
+  }
+  candidatos.sort((a,b)=>b.puntuacion-a.puntuacion);
+  const elegidos=[];
+  for(const c of candidatos){
+   if(c.inicio+longitud>dur)continue;
+   if(elegidos.every(x=>Math.abs(x.inicio-c.inicio)>longitud)){
+    elegidos.push(c);
+    if(elegidos.length===3)break;
+   }
+  }
+  if(!elegidos.length)throw new Error("No se han encontrado momentos. Prueba a elegir el inicio y final manualmente.");
+  $("momentos").innerHTML="";
+  elegidos.forEach((c,i)=>{
+   const b=document.createElement("button");
+   b.className="secondary";
+   b.textContent="Momento "+(i+1)+" · "+c.inicio.toFixed(1)+" s";
+   b.onclick=()=>{$("inicioClip").value=c.inicio.toFixed(1);$("finalClip").value=Math.min(dur,c.inicio+longitud).toFixed(1);video.currentTime=c.inicio};
+   $("momentos").appendChild(b);
+  });
+  $("momentos").insertAdjacentHTML("beforeend","<p class='small'>Selección basada en volumen de audio; no analiza el significado de la escena.</p>");
+ }catch(e){$("momentos").textContent=e.message}
+ finally{$("detectar").disabled=false}
+};
+
+$("transcribir").onclick=async()=>{
+ try{
+  if(!videoURL)throw new Error("Primero sube un vídeo.");
+  $("transcribir").disabled=true;
+  estadoSub("Cargando el modelo de reconocimiento de voz...");
+  if(!modelo){
+   const mod=await import("https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2");
+   modelo=await mod.pipeline("automatic-speech-recognition","Xenova/whisper-tiny",{progress_callback:p=>{
+    if(p.status==="progress")estadoSub("Descargando modelo: "+Math.round(p.progress||0)+"%");
+   }});
+  }
+  estadoSub("Preparando el audio...");
+  const audioCtx=new AudioContext();
+  const response=await fetch(videoURL);
+  const buffer=await audioCtx.decodeAudioData(await response.arrayBuffer());
+  const original=buffer.getChannelData(0);
+  const ratio=buffer.sampleRate/16000;
+  const mono=new Float32Array(Math.floor(original.length/ratio));
+  for(let i=0;i<mono.length;i++)mono[i]=original[Math.floor(i*ratio)];
+  await audioCtx.close();
+  const idioma=$("idioma").value;
+  const opts={chunk_length_s:30,stride_length_s:5,return_timestamps:"word"};
+  if(idioma!=="auto")opts.language=idioma;
+  estadoSub("Transcribiendo el vídeo. Espera...");
+  const result=await modelo(mono,opts);
+  palabras=(result.chunks||[]).map(c=>({text:c.text.trim(),start:c.timestamp?.[0]||0,end:c.timestamp?.[1]||0}));
+  $("textoSub").value=result.text||"";
+  estadoSub("Transcripción terminada. Puedes corregir el texto en el cuadro.");
+ }catch(e){estadoSub("No se pudo transcribir: "+e.message)}
+ finally{$("transcribir").disabled=false}
+};
+
+function dibujarTexto(ctx,text,x,y,maxWidth,lineHeight){
+ const words=text.split(/\s+/).filter(Boolean);
+ let lines=[],line="";
+ for(const word of words){
+  const test=line?line+" "+word:word;
+  if(ctx.measureText(test).width>maxWidth&&line){lines.push(line);line=word}else line=test;
+ }
+ if(line)lines.push(line);
+ lines=lines.slice(-3);
+ lines.forEach((l,i)=>{
+  const yy=y+(i-(lines.length-1)/2)*lineHeight;
+  if($("fondo").value==="box"){
+   const w=ctx.measureText(l).width+30;
+   ctx.fillStyle="rgba(0,0,0,.78)";
+   ctx.fillRect(x-w/2,yy-lineHeight*.75,w,lineHeight);
+   ctx.fillStyle=$("color").value;
+   ctx.fillText(l,x,yy);
+  }else{
+   ctx.lineWidth=7;ctx.strokeStyle="black";ctx.lineJoin="round";
+   ctx.strokeText(l,x,yy);
+   ctx.fillStyle=$("color").value;ctx.fillText(l,x,yy);
+  }
+ });
+}
+
+async function cargarFFmpeg(){
+ if(ffmpeg)return;
+ ffmpeg=new FFmpeg();
+ ffmpeg.on("log",({message})=>{if(message)estado("Convirtiendo a MP4: "+message.slice(-120))});
+ const base="https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/umd";
+ await ffmpeg.load({
+  coreURL:await toBlobURL(base+"/ffmpeg-core.js","text/javascript"),
+  wasmURL:await toBlobURL(base+"/ffmpeg-core.wasm","application/wasm")
+ });
+}
+
+$("exportar").onclick=async()=>{
+ const boton=$("exportar");
+ try{
+  if(!videoURL)throw new Error("Primero sube un vídeo.");
+  const inicio=tiempo($("inicioClip").value),fin=tiempo($("finalClip").value);
+  if(fin<=inicio||fin>video.duration)throw new Error("Revisa el inicio y el final del clip.");
+  if(!video.captureStream&&!video.mozCaptureStream)throw new Error("Tu navegador no permite capturar el audio del vídeo.");
+  boton.disabled=true;$("descarga").style.display="none";
+  estado("Preparando vídeo vertical...");
+  const canvas=document.createElement("canvas");
+  canvas.width=1080;canvas.height=1920;
+  const ctx=canvas.getContext("2d");
+  const stream=canvas.captureStream(30);
+  const sourceStream=(video.captureStream||video.mozCaptureStream).call(video);
+  sourceStream.getAudioTracks().forEach(t=>stream.addTrack(t));
+  const mime=MediaRecorder.isTypeSupported("video/webm;codecs=vp9,opus")?"video/webm;codecs=vp9,opus":"video/webm";
+  const recorder=new MediaRecorder(stream,{mimeType:mime});
+  const partes=[];
+  recorder.ondataavailable=e=>{if(e.data.size)partes.push(e.data)};
+  const grabacion=new Promise((resolve,reject)=>{
+   recorder.onstop=()=>resolve(new Blob(partes,{type:"video/webm"}));
+   recorder.onerror=()=>reject(new Error("Error al grabar el vídeo."));
+  });
+  video.pause();video.currentTime=inicio;
+  await new Promise(resolve=>video.onseeked=resolve);
+  recorder.start(500);
+  const texto=$("textoSub").value.trim();
+  const tam=Math.max(20,Math.min(90,Number($("tamano").value)||48));
+  const dibujar=()=>{
+   const vw=video.videoWidth,vh=video.videoHeight;
+   if(vw&&vh){
+    const escala=Math.max(1080/vw,1920/vh);
+    const w=vw*escala,h=vh*escala;
+    ctx.fillStyle="black";ctx.fillRect(0,0,1080,1920);
+    ctx.drawImage(video,(1080-w)/2,(1920-h)/2,w,h);
+   }
+   if(texto){
+    ctx.font="bold "+tam+"px Arial";
+    ctx.textAlign="center";ctx.textBaseline="middle";
+    const actual=palabras.find(p=>video.currentTime>=p.start&&video.currentTime<=p.end);
+    let linea=texto;
+    if(actual)linea=actual.text;
+    dibujarTexto(ctx,linea,540,1570,960,tam*1.2);
+   }
+   if(!video.paused&&video.currentTime<fin)requestAnimationFrame(dibujar);
+   else if(recorder.state==="recording")recorder.stop();
+  };
+  video.play();
+  dibujar();
+  await grabacion;
+  video.pause();stream.getTracks().forEach(t=>t.stop());
+  estado("Vídeo preparado. Cargando el conversor MP4...");
+  await cargarFFmpeg();
+  const webm=await fetchFile(URL.createObjectURL(new Blob(partes,{type:"video/webm"})));
+  await ffmpeg.writeFile("entrada.webm",webm);
+  estado("Convirtiendo a MP4 H.264. No cierres esta página...");
+  await ffmpeg.exec(["-i","entrada.webm","-c:v","libx264","-preset","ultrafast","-crf","28","-pix_fmt","yuv420p","-c:a","aac","-b:a","128k","-movflags","+faststart","salida.mp4"]);
+  const salida=await ffmpeg.readFile("salida.mp4");
+  const blob=new Blob([salida.buffer],{type:"video/mp4"});
+  const url=URL.createObjectURL(blob);
+  $("descarga").href=url;
+  $("descarga").style.display="inline-block";
+  $("descarga").textContent="DESCARGAR TU MP4";
+  estado("¡Exportación terminada! Pulsa DESCARGAR TU MP4.");
+ }catch(e){estado("Error: "+e.message)}
+ finally{boton.disabled=false}
+};
+</script>
+</body>
+</html>
