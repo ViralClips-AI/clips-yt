@@ -270,7 +270,7 @@ async function getFFmpeg() {
         toBlobURL(base + '/ffmpeg-core.js', 'text/javascript'),
         toBlobURL(base + '/ffmpeg-core.wasm', 'application/wasm')
       ]),
-      45000,
+      60000,
       'descargar ffmpeg-core.js y ffmpeg-core.wasm'
     );
 
@@ -292,6 +292,9 @@ async function getFFmpeg() {
 
   try {
     return await ffmpegLoading;
+  } catch (err) {
+    ffmpeg = null;
+    throw err;
   } finally {
     ffmpegLoading = null;
   }
@@ -346,6 +349,24 @@ async function extractAudio() {
     return new Float32Array(audioBuffer.getChannelData(0));
   } finally {
     await context.close();
+  }
+}
+
+async function decodeAudioFallbackFromFile(file) {
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContextClass) {
+    throw new Error('Este navegador no permite procesar audio.');
+  }
+  const ctx = new AudioContextClass({ sampleRate: 16000 });
+  try {
+    const raw = await file.arrayBuffer();
+    const buffer = await ctx.decodeAudioData(raw);
+    if (!buffer.numberOfChannels || !buffer.length) {
+      throw new Error('No se han podido leer muestras de audio del archivo.');
+    }
+    return new Float32Array(buffer.getChannelData(0));
+  } finally {
+    await ctx.close();
   }
 }
 
@@ -632,7 +653,15 @@ $('detectBtn').addEventListener('click', async () => {
   $('detectBtn').disabled = true;
 
   try {
-    const audio = await extractAudio();
+    let audio;
+    try {
+      audio = await extractAudio();
+    } catch (ffErr) {
+      console.warn('FFmpeg no disponible para extraer audio, usando decodificación nativa:', ffErr);
+      setStatus('Analizando audio directamente en el navegador…', 40);
+      audio = await decodeAudioFallbackFromFile(sourceFile);
+    }
+
     const rate = 16000;
     const windowSize = rate * 1.5;
     const scores = [];
