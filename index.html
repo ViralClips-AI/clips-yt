@@ -24,7 +24,7 @@
 <section class="page" id="page-crear"><h1 class="page-title">Crear un vídeo</h1><p class="page-sub">Sube tu vídeo, indica los segundos exactos y prepara tu clip vertical.</p><div class="panel"><h2>1. Añade tu vídeo</h2><label class="drop" for="videoFile"><span style="font-size:34px">＋</span><strong>Arrastra tu vídeo aquí o haz clic para seleccionarlo</strong><small>MP4, MOV, WEBM · El vídeo se procesa en tu navegador</small><input id="videoFile" type="file" accept="video/*"></label><div class="field" style="margin-top:15px"><input id="youtubeUrl" type="url" placeholder="O pega un enlace de YouTube para previsualizar"><button class="secondary" id="loadYoutube">Cargar enlace</button></div><div class="muted" style="margin-top:8px">Nota: los enlaces de YouTube permiten previsualizar; para editar y exportar debes subir el archivo de vídeo original.</div></div><div class="panel"><h2>2. Previsualización y recorte</h2><div class="video-wrap"><div class="video-box" id="videoBox"><span>Tu vídeo aparecerá aquí</span></div><div><div class="controls"><label>Inicio (s) <input id="clipStart" class="sec-input" type="text" inputmode="decimal" value="0" style="width:95px"></label><label>Final (s) <input id="clipEnd" class="sec-input" type="text" inputmode="decimal" value="45" style="width:95px"></label></div><div class="muted" id="durationInfo" style="margin-top:8px">Duración del vídeo: sin cargar</div><div class="controls"><button class="secondary" id="detectBtn">⚡ Detectar momentos</button><button class="secondary" id="makeSubBtn">CC Ir a subtítulos</button></div><div class="status" id="status">Sube un vídeo para empezar.</div><div class="progress"><span id="progressBar"></span></div><div class="controls"><label><input type="checkbox" id="vertical" checked> Formato vertical 9:16</label><label><input type="checkbox" id="burnSubs" checked> Incluir subtítulos</label></div><button class="primary" id="exportBtn" style="font-size:18px;padding:14px 22px;margin-top:12px">Exportar MP4</button></div></div></div><div class="panel"><h2>Momentos detectados</h2><div id="moments" class="clip-list"><span class="muted">Todavía no has marcado momentos.</span></div></div></section>
 <section class="page" id="page-subtitulos"><h1 class="page-title">Subtítulos</h1><p class="page-sub">Escribe o dicta el texto real de tu vídeo; se repartirá en los segundos de tu clip.</p><div class="panel"><div class="controls"><button class="secondary" id="subFromPage">Dictar con micrófono</button><button class="secondary" id="applyScriptBtn">Aplicar texto al clip</button><label>Idioma <select id="language"><option value="es-ES">Español</option><option value="en-US">Inglés</option><option value="fr-FR">Francés</option><option value="ar-SA">Árabe</option><option value="pt-PT">Portugués</option></select></label></div><textarea id="scriptInput" class="script-box" placeholder="Escribe o pega aquí lo que se dice en tu vídeo..."></textarea><div class="sub-preview" id="subtitlePreview" style="margin-top:16px">Así se verán tus subtítulos <span>en pantalla</span></div><h2 style="margin-top:20px">Palabras del clip</h2><div id="wordList" class="word-list"><span class="muted">Escribe o dicta el texto de tu vídeo y pulsa «Aplicar texto al clip».</span></div></div></section>
 <section class="page" id="page-clips"><h1 class="page-title">Mis clips</h1><p class="page-sub">Los tramos de tiempo que has preparado en esta sesión.</p><div class="panel"><div id="savedClips" class="clip-list"><span class="muted">Todavía no has creado clips.</span></div></div></section>
-<section class="page" id="page-ajustes"><h1 class="page-title">Ajustes</h1><p class="page-sub">Personaliza el resultado de tus vídeos.</p><div class="panel"><div class="settings-row"><div><strong>Formato de exportación</strong><div class="muted">Vídeos verticales para redes sociales</div></div><strong>9:16</strong></div><div class="settings-row"><div><strong>Estilo de subtítulos</strong><div class="muted">Blancos, borde negro y palabra activa verde</div></div><strong>CapCut</strong></div><div class="settings-row"><div><strong>Transcripción</strong><div class="muted">No se inventan palabras falsas; usas tu texto o dictado</div></div><strong>Real</strong></div><p class="footer-note">Para transcribir automáticamente un archivo de vídeo sin escribir ni usar micrófono en el navegador, necesitarás un servicio o programa externo con Whisper/STT, ya que ejecutar modelos pesados de IA dentro de la pestaña puede colgarse o tardar mucho.</p></div></section>
+<section class="page" id="page-ajustes"><h1 class="page-title">Ajustes</h1><p class="page-sub">Personaliza el resultado de tus vídeos.</p><div class="panel"><div class="settings-row"><div><strong>Formato de exportación</strong><div class="muted">Vídeos verticales para redes sociales</div></div><strong>9:16</strong></div><div class="settings-row"><div><strong>Estilo de subtítulos</strong><div class="muted">Blancos, borde negro y palabra activa verde</div></div><strong>CapCut</strong></div><div class="settings-row"><div><strong>Transcripción</strong><div class="muted">No se inventan palabras falsas; usas tu texto o dictado</div></div><strong>Real</strong></div><p class="footer-note">Clips.yt funciona en tu navegador sin instalar programas externos.</p></div></section>
 </main></div>
 
 <script type="module">
@@ -67,8 +67,6 @@ document.querySelectorAll('[data-go]').forEach(button => {
   button.addEventListener('click', () => go(button.dataset.go));
 });
 
-/* PARSEO SEGURO DE SEGUNDOS (45, 45.5, 45,5 o 0:45) */
-
 function parseSeconds(val, fallback = 0) {
   if (typeof val === 'number') {
     return Number.isFinite(val) ? val : fallback;
@@ -91,9 +89,9 @@ function parseSeconds(val, fallback = 0) {
 function getClipRangeSeconds() {
   const startParsed = Math.max(0, parseSeconds($('clipStart').value, 0));
   const endParsed = Math.max(0, parseSeconds($('clipEnd').value, 45));
-  const videoDuration = video && Number.isFinite(video.duration) && video.duration > 0
-    ? video.duration
-    : null;
+  const rawDur = video ? video.duration : NaN;
+  const hasFiniteDuration = typeof rawDur === 'number' && Number.isFinite(rawDur) && rawDur > 0;
+  const videoDuration = hasFiniteDuration ? rawDur : null;
 
   let effectiveEnd = endParsed;
   let clampedByDuration = false;
@@ -118,17 +116,15 @@ function updateDurationInfo() {
 
   if (videoDuration !== null) {
     const extra = clampedByDuration
-      ? ` · (Pediste ${requestedEnd.toFixed(1)}s, el vídeo dura ${videoDuration.toFixed(1)}s)`
+      ? ` · Ajustado a ${videoDuration.toFixed(1)}s porque el vídeo dura ${videoDuration.toFixed(1)}s`
       : '';
     $('durationInfo').textContent =
-      `Duración del vídeo: ${videoDuration.toFixed(1)}s · Clip: ${start.toFixed(1)}s a ${end.toFixed(1)}s (${clipLen.toFixed(1)}s)${extra}`;
+      `Vídeo: ${videoDuration.toFixed(1)}s · Rango: ${start.toFixed(1)}s a ${end.toFixed(1)}s (${clipLen.toFixed(1)}s)${extra}`;
   } else {
     $('durationInfo').textContent =
-      `Clip: ${start.toFixed(1)}s a ${end.toFixed(1)}s (${clipLen.toFixed(1)}s)`;
+      `Vídeo: duración sin determinar · Rango pedido: ${start.toFixed(1)}s a ${requestedEnd.toFixed(1)}s`;
   }
 }
-
-/* CARGAR VÍDEO */
 
 function loadVideo(file) {
   if (!file) return;
@@ -149,7 +145,7 @@ function loadVideo(file) {
 
   video.controls = true;
   video.playsInline = true;
-  video.preload = 'metadata';
+  video.preload = 'auto';
   video.src = videoURL;
 
   $('videoBox').innerHTML = '';
@@ -161,13 +157,17 @@ function loadVideo(file) {
   $('moments').textContent = 'Todavía no has marcado momentos.';
 
   video.addEventListener('loadedmetadata', () => {
-    const dur = Number.isFinite(video.duration) && video.duration > 0 ? video.duration : 45;
+    const dur = Number.isFinite(video.duration) && video.duration > 0 ? video.duration : null;
     $('clipStart').value = '0';
-    $('clipEnd').value = dur.toFixed(1);
+    if (dur !== null) {
+      $('clipEnd').value = Math.min(45, dur).toFixed(1);
+    }
     updateDurationInfo();
 
     setStatus(
-      `Vídeo cargado (${dur.toFixed(1)}s). Ajusta los segundos de inicio y final que quieras.`,
+      dur !== null
+        ? `Vídeo cargado (${dur.toFixed(1)}s). Pon los segundos de inicio y final que quieras.`
+        : 'Vídeo cargado. Indica los segundos de inicio y final.',
       0
     );
   }, { once: true });
@@ -186,8 +186,6 @@ $('videoFile').addEventListener('change', event => {
 
 $('clipStart').addEventListener('input', updateDurationInfo);
 $('clipEnd').addEventListener('input', updateDurationInfo);
-
-/* ARRASTRAR Y SOLTAR */
 
 const dropZone = document.querySelector('.drop');
 
@@ -213,8 +211,6 @@ dropZone.addEventListener('drop', event => {
     setStatus('Arrastra un archivo de vídeo válido.');
   }
 });
-
-/* YOUTUBE: SOLO VISTA PREVIA */
 
 $('loadYoutube').addEventListener('click', () => {
   const url = $('youtubeUrl').value.trim();
@@ -264,8 +260,6 @@ $('loadYoutube').addEventListener('click', () => {
   setStatus('Vista previa de YouTube cargada. Para recortar y exportar, sube el archivo original.');
 });
 
-/* SUBTÍTULOS DESDE TEXTO REAL DEL USUARIO */
-
 function applyScriptSubtitles() {
   const rawText = $('scriptInput').value.trim();
   const tokens = rawText ? rawText.split(/\s+/).filter(Boolean) : [];
@@ -300,8 +294,6 @@ $('makeSubBtn').addEventListener('click', () => {
 });
 
 $('applyScriptBtn').addEventListener('click', applyScriptSubtitles);
-
-/* DICTADO CON MICRÓFONO */
 
 $('subFromPage').addEventListener('click', () => {
   const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -353,8 +345,6 @@ $('subFromPage').addEventListener('click', () => {
     setStatus('No se pudo iniciar el micrófono. Escribe el texto y pulsa «Aplicar texto al clip».');
   }
 });
-
-/* MOSTRAR Y EDITAR PALABRAS */
 
 function renderWords() {
   const box = $('wordList');
@@ -438,8 +428,6 @@ function updatePreview() {
   });
 }
 
-/* MOMENTOS */
-
 $('detectBtn').addEventListener('click', () => {
   if (!video || !sourceFile) {
     setStatus('Primero sube un vídeo local.');
@@ -520,8 +508,6 @@ function renderMoments() {
   });
 }
 
-/* DIBUJAR SUBTÍTULOS EN CANVAS */
-
 function drawCanvasSubtitles(ctx, width, height, currentTime, vertical) {
   if (!words.length) return;
   const { visibleWords, activeLocalIndex } = getPhraseStateAtTime(currentTime);
@@ -574,8 +560,6 @@ function triggerDownload(blob, filename) {
   setTimeout(() => URL.revokeObjectURL(url), 60000);
 }
 
-/* EXPORTAR CLIP */
-
 async function exportMP4() {
   if (processing) return;
 
@@ -584,15 +568,10 @@ async function exportMP4() {
     return;
   }
 
-  if (!Number.isFinite(video.duration) || video.duration <= 0) {
-    setStatus('Espera a que el vídeo termine de cargarse antes de exportar.');
-    return;
-  }
-
-  const { start, end } = getClipRangeSeconds();
+  const { start, end, requestedEnd, videoDuration } = getClipRangeSeconds();
 
   if (end <= start) {
-    setStatus('El segundo final debe ser mayor que el de inicio.');
+    setStatus(`El final (${end.toFixed(1)}s) debe ser mayor que el inicio (${start.toFixed(1)}s). Duración vídeo: ${videoDuration ?? 'desconocida'}.`);
     return;
   }
 
@@ -607,7 +586,7 @@ async function exportMP4() {
   let renderVideo = null;
 
   try {
-    setStatus(`Preparando exportación (${start.toFixed(1)}s a ${end.toFixed(1)}s)…`, 10);
+    setStatus(`Iniciando exportación de ${start.toFixed(1)}s a ${end.toFixed(1)}s (pedido: ${requestedEnd.toFixed(1)}s, duración vídeo: ${videoDuration ? videoDuration.toFixed(1) + 's' : 'no reportada'})…`, 10);
 
     const vertical = $('vertical').checked;
     const burnSubs = $('burnSubs').checked && words.length > 0;
@@ -649,7 +628,7 @@ async function exportMP4() {
         resolve();
       }, 1500);
       renderVideo.addEventListener('seeked', onSeeked, { once: true });
-      renderVideo.currentTime = Math.max(0, Math.min(renderVideo.duration || end, targetTime));
+      renderVideo.currentTime = Math.max(0, targetTime);
     });
 
     const drawCurrentFrame = timeSec => {
@@ -700,7 +679,7 @@ async function exportMP4() {
         recorder.onstop = resolve;
       });
 
-      setStatus(`Grabando clip (${start.toFixed(1)}s – ${end.toFixed(1)}s, ${duration.toFixed(1)}s)…`, 20);
+      setStatus(`Grabando de ${start.toFixed(1)}s a ${end.toFixed(1)}s…`, 20);
       recorder.start(200);
       await renderVideo.play();
 
@@ -715,13 +694,13 @@ async function exportMP4() {
           drawCurrentFrame(renderVideo.currentTime);
           const elapsed = Math.max(0, Math.min(duration, renderVideo.currentTime - start));
           const pct = Math.round(20 + (elapsed / duration) * 75);
-          setStatus(`Exportando clip (${renderVideo.currentTime.toFixed(1)}s / ${end.toFixed(1)}s)… ${Math.min(99, pct)}%`, pct);
+          setStatus(`Exportando: ${renderVideo.currentTime.toFixed(1)}s / ${end.toFixed(1)}s (${Math.min(99, pct)}%)`, pct);
           rafId = requestAnimationFrame(step);
         };
         rafId = requestAnimationFrame(step);
       });
 
-      const actualEnd = Math.min(end, renderVideo.currentTime || end);
+      const actualEnd = renderVideo.currentTime || end;
       const actualDuration = Math.max(0, actualEnd - start);
 
       renderVideo.pause();
@@ -734,7 +713,7 @@ async function exportMP4() {
       if (blob.size > 0) {
         const ext = blob.type.includes('mp4') ? 'mp4' : 'webm';
         triggerDownload(blob, `clips-yt.${ext}`);
-        setStatus(`¡Clip exportado al 100%! Tramo: ${start.toFixed(1)}s a ${actualEnd.toFixed(1)}s (${actualDuration.toFixed(1)}s).`, 100);
+        setStatus(`Exportado de ${start.toFixed(1)}s a ${actualEnd.toFixed(1)}s (${actualDuration.toFixed(1)}s grabados).`, 100);
         return;
       }
     }
