@@ -25,7 +25,7 @@
 </nav></aside>
 <main>
 <section class="page active" id="page-inicio"><div class="hero"><div class="hero-copy"><h1>Convierte tus vídeos<br><span>en clips virales</span></h1><p>Edita, añade subtítulos automáticos y exporta en formato vertical, fácil y gratis.</p><button class="primary" data-go="crear">Crear un vídeo <span>⟶</span></button></div><div class="hero-art"><div class="phone"><div class="phone-placeholder">Tu próximo clip<br>viral empieza aquí</div><div class="play">▶</div><div class="phone-controls">━━━━━━●　0:00 / 0:30</div></div><div class="pill p1"><b>✂</b>Recorta momentos</div><div class="pill p2"><b>CC</b>Añade subtítulos</div><div class="pill p3"><b>⇧</b>Exporta en MP4</div><div class="pill p4"><b>CC</b>Subtítulos automáticos</div></div></div><div class="features"><article class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="m13 2-9 12h7l-1 8 10-13h-7z"/></svg></div><h3>Detecta momentos</h3><p>Encuentra automáticamente las partes más interesantes de tu vídeo.</p></article><article class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M6 10h5m-5 4h5m3-4h4m-4 4h4"/></svg></div><h3>Subtítulos precisos</h3><p>Transcripción con buena sincronización y resaltado de palabras.</p></article><article class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 5h4m-3 14h2"/></svg></div><h3>Formato listo</h3><p>Exporta en vertical (9:16) para TikTok, Shorts e Instagram Reels.</p></article></div></section>
-<section class="page" id="page-crear"><h1 class="page-title">Crear un vídeo</h1><p class="page-sub">Sube tu vídeo, elige un momento y prepara tu clip vertical.</p><div class="panel"><h2>1. Añade tu vídeo</h2><label class="drop" for="videoFile"><span style="font-size:34px">＋</span><strong>Arrastra tu vídeo aquí o haz clic para seleccionarlo</strong><small>MP4, MOV, WEBM · El vídeo se procesa en tu navegador</small><input id="videoFile" type="file" accept="video/*"></label><div class="field" style="margin-top:15px"><input id="youtubeUrl" type="url" placeholder="O pega un enlace de YouTube para previsualizar"><button class="secondary" id="loadYoutube">Cargar enlace</button></div><div class="muted" style="margin-top:8px">Nota: los enlaces de YouTube permiten previsualizar; para editar y exportar debes subir el archivo de vídeo original.</div></div><div class="panel"><h2>2. Previsualización y recorte</h2><div class="video-wrap"><div class="video-box" id="videoBox"><span>Tu vídeo aparecerá aquí</span></div><div><div class="controls"><label>Inicio (s) <input id="clipStart" type="number" min="0" step="0.1" value="0" style="width:90px"></label><label>Final (s) <input id="clipEnd" type="number" min="0" step="0.1" value="30" style="width:90px"></label></div><div class="controls"><button class="secondary" id="detectBtn">⚡ Detectar momentos</button><button class="secondary" id="makeSubBtn">CC Crear subtítulos</button></div><div class="status" id="status">Sube un vídeo para empezar.</div><div class="progress"><span id="progressBar"></span></div><div class="controls"><label><input type="checkbox" id="vertical" checked> Formato vertical 9:16</label><label><input type="checkbox" id="burnSubs" checked> Incluir subtítulos</label></div><button class="primary" id="exportBtn" style="font-size:18px;padding:14px 22px;margin-top:12px">Exportar MP4</button></div></div></div><div class="panel"><h2>Momentos detectados</h2><div id="moments" class="clip-list"><span class="muted">Todavía no has analizado ningún vídeo.</span></div></div></section>
+<section class="page" id="page-crear"><h1 class="page-title">Crear un vídeo</h1><p class="page-sub">Sube tu vídeo, elige un momento y prepara tu clip vertical.</p><div class="panel"><h2>1. Añade tu vídeo</h2><label class="drop" for="videoFile"><span style="font-size:34px">＋</span><strong>Arrastra tu vídeo aquí o haz clic para seleccionarlo</strong><small>MP4, MOV, WEBM · El vídeo se procesa en tu navegador</small><input id="videoFile" type="file" accept="video/*"></label><div class="field" style="margin-top:15px"><input id="youtubeUrl" type="url" placeholder="O pega un enlace de YouTube para previsualizar"><button class="secondary" id="loadYoutube">Cargar enlace</button></div><div class="muted" style="margin-top:8px">Nota: los enlaces de YouTube permiten previsualizar; para editar y exportar debes subir el archivo de vídeo original.</div></div><div class="panel"><h2>2. Previsualización y recorte</h2><div class="video-wrap"><div class="video-box" id="videoBox"><span>Tu vídeo aparecerá aquí</span></div><div><div class="controls"><label>Inicio del clip (s) <input id="clipStart" type="number" min="0" step="0.1" value="0" style="width:105px"></label><label>Final del clip (s) <input id="clipEnd" type="number" min="0" step="0.1" value="30" style="width:105px"></label><label>Duración (s) <input id="clipDuration" type="number" min="0.2" step="0.1" value="30" style="width:105px"></label></div><div class="muted" style="margin-top:8px">Elige el segundo de inicio, el segundo final o escribe directamente cuánto debe durar el clip. Los valores se sincronizan automáticamente.</div><div class="controls"><button class="secondary" id="detectBtn">⚡ Detectar momentos</button><button class="secondary" id="makeSubBtn">CC Crear subtítulos</button></div><div class="status" id="status">Sube un vídeo para empezar.</div><div class="progress"><span id="progressBar"></span></div><div class="controls"><label><input type="checkbox" id="vertical" checked> Formato vertical 9:16</label><label><input type="checkbox" id="burnSubs" checked> Incluir subtítulos</label></div><button class="primary" id="exportBtn" style="font-size:18px;padding:14px 22px;margin-top:12px">Exportar MP4</button></div></div></div><div class="panel"><h2>Momentos detectados</h2><div id="moments" class="clip-list"><span class="muted">Todavía no has analizado ningún vídeo.</span></div></div></section>
 <section class="page" id="page-subtitulos"><h1 class="page-title">Subtítulos</h1><p class="page-sub">Genera y revisa la transcripción. Puedes corregir cada palabra.</p><div class="panel"><div class="controls"><button class="secondary" id="subFromPage">Generar subtítulos automáticos</button><label>Idioma <select id="language"><option value="auto">Detectar automáticamente</option><option value="spa">Español</option><option value="eng">Inglés</option><option value="fra">Francés</option><option value="ara">Árabe</option><option value="por">Portugués</option></select></label></div><p class="muted">La primera vez se descarga el modelo de reconocimiento. Necesitas conexión a internet; el procesamiento se realiza en tu equipo.</p><div class="sub-preview" id="subtitlePreview">Así se verán tus subtítulos <span>en pantalla</span></div><h2 style="margin-top:20px">Palabras detectadas</h2><div id="wordList" class="word-list"><span class="muted">Todavía no hay subtítulos. Sube un vídeo y pulsa “Generar subtítulos automáticos”.</span></div></div></section>
 <section class="page" id="page-clips"><h1 class="page-title">Mis clips</h1><p class="page-sub">Los momentos que has seleccionado en esta sesión.</p><div class="panel"><div id="savedClips" class="clip-list"><span class="muted">Todavía no has creado clips.</span></div></div></section>
 <section class="page" id="page-ajustes"><h1 class="page-title">Ajustes</h1><p class="page-sub">Personaliza el resultado de tus vídeos.</p><div class="panel"><div class="settings-row"><div><strong>Formato de exportación</strong><div class="muted">Vídeos verticales para redes sociales</div></div><strong>9:16</strong></div><div class="settings-row"><div><strong>Estilo de subtítulos</strong><div class="muted">Blancos, borde negro y palabra activa verde</div></div><strong>CapCut</strong></div><div class="settings-row"><div><strong>Procesamiento</strong><div class="muted">En tu navegador, sin suscripción</div></div><strong>Local</strong></div><p class="footer-note">Clips.yt utiliza modelos y librerías de código abierto cargados desde internet. La velocidad depende de tu ordenador. Para evitar problemas de memoria, prueba primero con vídeos cortos (15–60 segundos).</p></div></section>
@@ -73,6 +73,37 @@ document.querySelectorAll('[data-go]').forEach(button => {
   button.addEventListener('click', () => go(button.dataset.go));
 });
 
+/* SINCRONIZAR INICIO, FINAL Y DURACIÓN */
+function syncClipFromStart() {
+  if (!video || !Number.isFinite(video.duration)) return;
+  const start = Math.max(0, Math.min(video.duration, Number($('clipStart').value) || 0));
+  const duration = Math.max(0.2, Number($('clipDuration').value) || 0.2);
+  const end = Math.min(video.duration, start + duration);
+  $('clipStart').value = start.toFixed(1);
+  $('clipEnd').value = end.toFixed(1);
+  $('clipDuration').value = (end - start).toFixed(1);
+}
+function syncClipFromEnd() {
+  if (!video || !Number.isFinite(video.duration)) return;
+  const start = Math.max(0, Math.min(video.duration - 0.2, Number($('clipStart').value) || 0));
+  const end = Math.max(start + 0.2, Math.min(video.duration, Number($('clipEnd').value) || video.duration));
+  $('clipStart').value = start.toFixed(1);
+  $('clipEnd').value = end.toFixed(1);
+  $('clipDuration').value = (end - start).toFixed(1);
+}
+function syncClipFromDuration() {
+  if (!video || !Number.isFinite(video.duration)) return;
+  const start = Math.max(0, Math.min(video.duration - 0.2, Number($('clipStart').value) || 0));
+  const duration = Math.max(0.2, Number($('clipDuration').value) || 0.2);
+  const end = Math.min(video.duration, start + duration);
+  $('clipStart').value = start.toFixed(1);
+  $('clipEnd').value = end.toFixed(1);
+  $('clipDuration').value = (end - start).toFixed(1);
+}
+$('clipStart').addEventListener('change', syncClipFromStart);
+$('clipEnd').addEventListener('change', syncClipFromEnd);
+$('clipDuration').addEventListener('change', syncClipFromDuration);
+
 /* CARGAR VÍDEO */
 
 function loadVideo(file) {
@@ -105,14 +136,12 @@ function loadVideo(file) {
   video.addEventListener('loadedmetadata', () => {
     $('clipStart').value = '0';
     $('clipEnd').value = Math.min(30, video.duration).toFixed(1);
+    $('clipDuration').value = Math.min(30, video.duration).toFixed(1);
 
     setStatus(
-      'Vídeo cargado. Iniciando la generación automática de subtítulos…',
+      'Vídeo cargado correctamente. Ya puedes crear subtítulos y clips.',
       0
     );
-
-    // Los subtítulos comienzan automáticamente al terminar de cargar el vídeo.
-    makeSubtitles();
   }, { once: true });
 
   video.addEventListener('error', () => {
@@ -232,7 +261,15 @@ async function getFFmpeg() {
     const base =
       'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/umd';
 
+    // Carga el Worker como Blob para evitar crear un Worker directamente
+    // desde un dominio externo en GitHub Pages.
+    const classWorkerURL = await toBlobURL(
+      'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/worker.js',
+      'text/javascript'
+    );
+
     await instance.load({
+      classWorkerURL,
       coreURL: await toBlobURL(
         base + '/ffmpeg-core.js',
         'text/javascript'
@@ -559,7 +596,7 @@ function updatePreview() {
 }
 
 
-/* DETECTAR MOMENTOS DENTRO DEL INTERVALO ELEGIDO */
+/* DETECTAR MOMENTOS CON AUDIO */
 
 $('detectBtn').addEventListener('click', async () => {
   if (processing) return;
@@ -575,84 +612,68 @@ $('detectBtn').addEventListener('click', async () => {
   try {
     const audio = await extractAudio();
     const rate = 16000;
-    const duration = audio.length / rate;
-    const rangeStart = Math.max(0, Number($('clipStart').value) || 0);
-    const rangeEnd = Math.min(duration, Number($('clipEnd').value));
+    const selectedStart = Math.max(0, Number($('clipStart').value) || 0);
+    const selectedEnd = Math.min(audio.length / rate, Number($('clipEnd').value) || audio.length / rate);
+    if (selectedEnd <= selectedStart) throw new Error('El final debe ser posterior al inicio.');
+    const selectedAudio = audio.slice(Math.floor(selectedStart * rate), Math.floor(selectedEnd * rate));
+    const windowSize = rate * 1.5;
+    const scores = [];
 
-    if (!Number.isFinite(rangeEnd) || rangeEnd <= rangeStart) {
-      throw new Error('El segundo final debe ser mayor que el segundo de inicio y estar dentro del vídeo.');
-    }
+    setStatus('Analizando el sonido del vídeo…', 70);
 
-    const clipLength = Math.min(15, rangeEnd - rangeStart);
-    const windowSize = Math.round(rate * 1.5);
-    const candidates = [];
+    for (let i = 0; i < selectedAudio.length; i += windowSize) {
+      const end = Math.min(selectedAudio.length, i + windowSize);
 
-    setStatus('Analizando únicamente el intervalo seleccionado…', 70);
-
-    // Cada candidato se calcula solo si su ventana está dentro del rango indicado.
-    for (
-      let i = Math.floor(rangeStart * rate);
-      i + windowSize <= Math.ceil(rangeEnd * rate);
-      i += windowSize
-    ) {
-      const finish = Math.min(audio.length, i + windowSize);
       let sum = 0;
       let count = 0;
 
-      for (let j = i; j < finish; j += 4) {
-        sum += audio[j] * audio[j];
+      for (let j = i; j < end; j += 4) {
+        sum += selectedAudio[j] * selectedAudio[j];
         count++;
       }
 
-      candidates.push({
-        center: (i + finish) / 2 / rate,
+      scores.push({
+        time: selectedStart + i / rate,
         score: Math.sqrt(sum / Math.max(1, count))
       });
     }
 
-    if (!candidates.length) {
-      throw new Error('El intervalo seleccionado es demasiado corto para analizarlo.');
-    }
-
     const selected = [];
-    candidates.sort((a, b) => b.score - a.score);
 
-    for (const candidate of candidates) {
-      const clipStart = Math.max(
-        rangeStart,
-        Math.min(candidate.center - clipLength / 2, rangeEnd - clipLength)
-      );
-      const clipEnd = clipStart + clipLength;
+    scores
+      .sort((a, b) => b.score - a.score)
+      .forEach(item => {
+        if (
+          selected.length < 3 &&
+          selected.every(
+            previous => Math.abs(previous.time - item.time) > 12
+          )
+        ) {
+          selected.push(item);
+        }
+      });
 
-      const separated = selected.every(item =>
-        clipEnd <= item.start || clipStart >= item.end
-      );
-
-      if (separated) {
-        selected.push({ start: clipStart, end: clipEnd, score: candidate.score });
-      }
-
-      if (selected.length === 3) break;
-    }
+    const duration = selectedEnd;
 
     moments = selected
-      .sort((a, b) => a.start - b.start)
+      .sort((a, b) => a.time - b.time)
       .map((item, index) => ({
         name: 'Momento ' + (index + 1),
-        start: item.start,
-        end: item.end
-      }));
+        start: Math.max(selectedStart, item.time - 7.5),
+        end: Math.min(duration, item.time + 7.5)
+      }))
+      .filter(item => item.end > item.start);
 
     renderMoments();
 
     setStatus(
-      `Análisis terminado: ${moments.length} momento(s) dentro de ${rangeStart.toFixed(1)}s–${rangeEnd.toFixed(1)}s. La selección se basa en intensidad del sonido, no en comprensión de la escena.`,
+      'Análisis terminado. Los momentos se seleccionan por intensidad del sonido, no por comprensión de la escena.',
       100
     );
 
   } catch (error) {
     console.error(error);
-    setStatus('Error al analizar el vídeo: ' + (error.message || error));
+    setStatus('Error al analizar el vídeo: ' + error.message);
 
   } finally {
     processing = false;
@@ -694,6 +715,7 @@ function renderMoments() {
     button.addEventListener('click', () => {
       $('clipStart').value = moment.start.toFixed(1);
       $('clipEnd').value = moment.end.toFixed(1);
+      $('clipDuration').value = (moment.end - moment.start).toFixed(1);
 
       go('crear');
 
@@ -712,12 +734,8 @@ function renderMoments() {
     row.className = 'clip-row';
 
     const info = document.createElement('div');
-    const title = document.createElement('strong');
-    title.textContent = moment.name;
-    const time = document.createElement('div');
-    time.className = 'muted';
-    time.textContent = `${moment.start.toFixed(1)}s – ${moment.end.toFixed(1)}s`;
-    info.append(title, time);
+    info.innerHTML =
+      `<strong>${moment.name}</strong><div class="muted">${moment.start.toFixed(1)}s – ${moment.end.toFixed(1)}s</div>`;
 
     row.appendChild(info);
     saved.appendChild(row);
