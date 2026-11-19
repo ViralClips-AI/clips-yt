@@ -25,7 +25,7 @@
 <button data-page="ajustes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.4 1.1-1.4 2.4-1.7-.6a8 8 0 0 1-1.6.9l-.3 1.8h-2.8l-.3-1.8a8 8 0 0 1-1.6-.9l-1.7.6-1.4-2.4 1.4-1.1a7 7 0 0 1 0-1.9l-1.4-1.1 1.4-2.4 1.7.6a8 8 0 0 1 1.6-.9l.3-1.8h2.8l.3 1.8a8 8 0 0 1 1.6.9l1.7-.6 1.4 2.4-1.4 1.1a7 7 0 0 1 0 1.9z" transform="translate(-1 -1)"/></svg>Ajustes</button>
 </nav></aside>
 <main>
-<section class="page active" id="page-inicio"><div class="hero"><div class="hero-copy"><h1>Convierte tus vídeos<br><span>en clips virales</span></h1><p>Edita, añade subtítulos automáticos y exporta en formato vertical, fácil y gratis.</p><button class="primary" data-go="crear">Crear un vídeo <span>⟶</span></button></div><div class="hero-art"><div class="phone"><div class="phone-placeholder">Tu próximo clip<br>viral empieza aquí</div><div class="play">▶</div><div class="phone-controls">━━━━━━●　0:00 / 0:30</div></div><div class="pill p1"><b>✂</b>Recorta momentos</div><div class="pill p2"><b>CC</b>Añade subtítulos</div><div class="pill p3"><b>⇧</b>Exporta en MP4</div><div class="pill p4"><b>CC</b>Subtítulos automáticos</div></div></div><div class="features"><article class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="m13 2-9 12h7l-1 8 10-13h-7z"/></svg></div><h3>Detecta momentos</h3><p>Encuentra automáticamente las partes más interesantes de tu vídeo.</p></article><article class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M6 10h5m-5 4h5m3-4h4m-4 4h4"/></svg></div><h3>Subtítulos precisos</h3><p>Transcripción con buena sincronización y resaltado de palabras.</p></article><article class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 5h4m-3 14h2"/></svg></div><h3>Formato listo</h3><p>Exporta en vertical (9:16) para TikTok, Shorts e Instagram Reels.</p></article></div></section>
+<section class="page active" id="page-inicio"><div class="hero"><div class="hero-copy"><h1>Convierte tus vídeos<br><span>en clips virales</span></h1><p>Edita, añade subtítulos automáticos y exporta en formato vertical, fácil y gratis.</p><button class="primary" data-go="crear">Crear un vídeo <span>⟶</span></button></div><div class="hero-art"><div class="phone"><div class="phone-placeholder">Tu próximo clip<br>viral empieza aquí</div><div class="play">▶</div><div class="phone-controls">━━━━━━● 0:00 / 0:30</div></div><div class="pill p1"><b>✂</b>Recorta momentos</div><div class="pill p2"><b>CC</b>Añade subtítulos</div><div class="pill p3"><b>⇧</b>Exporta en MP4</div><div class="pill p4"><b>CC</b>Subtítulos automáticos</div></div></div><div class="features"><article class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="m13 2-9 12h7l-1 8 10-13h-7z"/></svg></div><h3>Detecta momentos</h3><p>Encuentra automáticamente las partes más interesantes de tu vídeo.</p></article><article class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M6 10h5m-5 4h5m3-4h4m-4 4h4"/></svg></div><h3>Subtítulos precisos</h3><p>Transcripción con buena sincronización y resaltado de palabras.</p></article><article class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 5h4m-3 14h2"/></svg></div><h3>Formato listo</h3><p>Exporta en vertical (9:16) para TikTok, Shorts e Instagram Reels.</p></article></div></section>
 <section class="page" id="page-crear"><h1 class="page-title">Crear un vídeo</h1><p class="page-sub">Sube tu vídeo, elige un momento y prepara tu clip vertical.</p><div class="panel"><h2>1. Añade tu vídeo</h2><label class="drop" for="videoFile"><span style="font-size:34px">＋</span><strong>Arrastra tu vídeo aquí o haz clic para seleccionarlo</strong><small>MP4, MOV, WEBM · El vídeo se procesa en tu navegador</small><input id="videoFile" type="file" accept="video/*"></label><div class="field" style="margin-top:15px"><input id="youtubeUrl" type="url" placeholder="O pega un enlace de YouTube para previsualizar"><button class="secondary" id="loadYoutube">Cargar enlace</button></div><div class="muted" style="margin-top:8px">Nota: los enlaces de YouTube permiten previsualizar; para editar y exportar debes subir el archivo de vídeo original.</div></div><div class="panel"><h2>2. Previsualización y recorte</h2><div class="video-wrap"><div class="video-box" id="videoBox"><span>Tu vídeo aparecerá aquí</span></div><div><div class="controls"><label>Inicio (s) <input id="clipStart" type="number" min="0" step="0.1" value="0" style="width:90px"></label><label>Final (s) <input id="clipEnd" type="number" min="0" step="0.1" value="30" style="width:90px"></label></div><div class="controls"><button class="secondary" id="detectBtn">⚡ Detectar momentos</button><button class="secondary" id="makeSubBtn">CC Crear subtítulos</button></div><div class="status" id="status">Sube un vídeo para empezar.</div><div class="progress"><span id="progressBar"></span></div><div class="controls"><label><input type="checkbox" id="vertical" checked> Formato vertical 9:16</label><label><input type="checkbox" id="burnSubs" checked> Incluir subtítulos</label></div><button class="primary" id="exportBtn" style="font-size:18px;padding:14px 22px;margin-top:12px">Exportar MP4</button></div></div></div><div class="panel"><h2>Momentos detectados</h2><div id="moments" class="clip-list"><span class="muted">Todavía no has analizado ningún vídeo.</span></div></div></section>
 <section class="page" id="page-subtitulos"><h1 class="page-title">Subtítulos</h1><p class="page-sub">Genera y revisa la transcripción. Puedes corregir cada palabra.</p><div class="panel"><div class="controls"><button class="secondary" id="subFromPage">Generar subtítulos automáticos</button><label>Idioma <select id="language"><option value="auto">Detectar automáticamente</option><option value="spa">Español</option><option value="eng">Inglés</option><option value="fra">Francés</option><option value="ara">Árabe</option><option value="por">Portugués</option></select></label></div><p class="muted">La primera vez se descarga el modelo de reconocimiento. Necesitas conexión a internet; el procesamiento se realiza en tu equipo.</p><div class="sub-preview" id="subtitlePreview">Así se verán tus subtítulos <span>en pantalla</span></div><h2 style="margin-top:20px">Palabras detectadas</h2><div id="wordList" class="word-list"><span class="muted">Todavía no hay subtítulos. Sube un vídeo y pulsa “Generar subtítulos automáticos”.</span></div></div></section>
 <section class="page" id="page-clips"><h1 class="page-title">Mis clips</h1><p class="page-sub">Los momentos que has seleccionado en esta sesión.</p><div class="panel"><div id="savedClips" class="clip-list"><span class="muted">Todavía no has creado clips.</span></div></div></section>
@@ -103,7 +103,7 @@ function loadVideo(file) {
   video.addEventListener('timeupdate', updatePreview);
   video.addEventListener('seeked', updatePreview);
   $('wordList').textContent = 'Todavía no hay subtítulos.';
-  $('subtitlePreview').textContent = 'Así se verán tus subtítulos';
+  $('subtitlePreview').innerHTML = 'Así se verán tus subtítulos <span>en pantalla</span>';
   $('moments').textContent = 'Todavía no has analizado ningún vídeo.';
 
   video.addEventListener('loadedmetadata', () => {
@@ -183,7 +183,6 @@ $('loadYoutube').addEventListener('click', () => {
     return;
   }
 
-  // Evita que el vídeo local anterior siga disponible para exportar por error.
   if (videoURL) URL.revokeObjectURL(videoURL);
   videoURL = null;
   video = null;
@@ -193,7 +192,7 @@ $('loadYoutube').addEventListener('click', () => {
   $('wordList').textContent = 'YouTube solo permite previsualizar aquí.';
   $('moments').textContent = 'Sube el archivo original para analizar momentos.';
   $('savedClips').textContent = 'Todavía no has creado clips.';
-  $('subtitlePreview').textContent = 'Así se verán tus subtítulos';
+  $('subtitlePreview').innerHTML = 'Así se verán tus subtítulos <span>en pantalla</span>';
   $('videoBox').innerHTML = '';
 
   const frame = document.createElement('iframe');
@@ -206,13 +205,17 @@ $('loadYoutube').addEventListener('click', () => {
   setStatus('Vista previa de YouTube cargada. Para editar, generar subtítulos y exportar, sube el archivo original.');
 });
 
-/* CARGAR FFMPEG */
+/* CARGAR FFMPEG CON WORKER DEL MISMO ORIGEN */
 
 async function getFFmpeg() {
   if (ffmpeg && ffmpeg.loaded) return ffmpeg;
   if (ffmpegLoading) return ffmpegLoading;
 
   ffmpegLoading = (async () => {
+    if (window.location.protocol === 'file:') {
+      throw new Error('Abre la web desde https://viralclips-ai.github.io/ o un servidor local (no con file://) para que el Worker pueda cargarse.');
+    }
+
     setStatus('Preparando el motor de vídeo. La primera carga puede tardar…', 5);
 
     const { FFmpeg } = await import(
@@ -238,10 +241,14 @@ async function getFFmpeg() {
       }
     });
 
+    // Worker ESM alojado en el mismo origen (GitHub Pages) para evitar errores de origen cruzado.
+    const localWorkerURL = new URL('./ffmpeg/worker.js', window.location.href).href;
+
     const base =
       'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/umd';
 
     await instance.load({
+      classWorkerURL: localWorkerURL,
       coreURL: await toBlobURL(
         base + '/ffmpeg-core.js',
         'text/javascript'
@@ -350,6 +357,7 @@ async function getRecognizer() {
 
   return recognizer;
 }
+
 /* GENERAR SUBTÍTULOS POR FRAGMENTOS */
 
 async function makeSubtitles() {
@@ -436,8 +444,7 @@ async function makeSubtitles() {
           const absoluteStart = Math.min(duration, offsetSeconds + safeStart);
           const absoluteEnd = Math.min(duration, offsetSeconds + safeEnd);
 
-          // Descarta la zona repetida al principio de cada fragmento solapado.
-          if (offset > 0 && absoluteStart < offsetSeconds + overlapSeconds) {
+          if (offset > 0 && absoluteEnd <= offsetSeconds + overlapSeconds) {
             continue;
           }
           if (absoluteEnd <= absoluteStart) continue;
@@ -474,12 +481,11 @@ async function makeSubtitles() {
       .filter(w => w.text && Number.isFinite(w.start) && Number.isFinite(w.end) && w.end > w.start)
       .sort((a, b) => a.start - b.start);
 
-    // Elimina duplicados idénticos que Whisper pueda repetir en los bordes de fragmento.
     words = sortedWords.filter((word, index, list) => {
       if (index === 0) return true;
       const previous = list[index - 1];
       const sameText = word.text.toLocaleLowerCase() === previous.text.toLocaleLowerCase();
-      return !(sameText && Math.abs(word.start - previous.start) < 0.18);
+      return !(sameText && Math.abs(word.start - previous.start) < 0.25);
     });
 
     renderWords();
@@ -545,31 +551,34 @@ function renderWords() {
   updatePreview();
 }
 
-
 function updatePreview() {
   const preview = $('subtitlePreview');
   preview.innerHTML = '';
 
   if (!words.length) {
-    preview.textContent = 'Así se verán tus subtítulos';
+    preview.innerHTML = 'Así se verán tus subtítulos <span>en pantalla</span>';
     return;
   }
 
   const currentTime = video ? video.currentTime : 0;
 
-  const activeIndex = words.findIndex(word =>
+  let activeIndex = words.findIndex(word =>
     currentTime >= word.start && currentTime <= word.end
   );
 
-  const firstIndex = Math.max(
-    0,
-    Math.min(
-      activeIndex === -1 ? 0 : activeIndex - 3,
-      words.length - 7
-    )
-  );
+  if (activeIndex === -1) {
+    activeIndex = words.findIndex(word => word.start > currentTime);
+    if (activeIndex === -1) activeIndex = words.length - 1;
+  }
 
-  const visibleWords = words.slice(firstIndex, firstIndex + 7);
+  const windowSize = 7;
+  const maxStart = Math.max(0, words.length - windowSize);
+  const firstIndex = Math.max(0, Math.min(activeIndex - 3, maxStart));
+  const visibleWords = words.slice(firstIndex, firstIndex + windowSize);
+
+  const isSpeakingNow = words.some(word =>
+    currentTime >= word.start && currentTime <= word.end
+  );
 
   visibleWords.forEach((word, index) => {
     const span = document.createElement('span');
@@ -577,14 +586,13 @@ function updatePreview() {
 
     const realIndex = firstIndex + index;
 
-    if (realIndex === activeIndex) {
+    if (isSpeakingNow && realIndex === activeIndex) {
       span.classList.add('active');
     }
 
     preview.appendChild(span);
   });
 }
-
 
 /* DETECTAR MOMENTOS CON AUDIO */
 
@@ -704,7 +712,9 @@ function renderMoments() {
 
       go('crear');
 
-      video.currentTime = moment.start;
+      if (video) {
+        video.currentTime = moment.start;
+      }
     });
 
     row.append(info, button);
@@ -746,6 +756,7 @@ function assTime(seconds) {
 }
 
 /* CREAR SUBTÍTULOS ASS CON FRASE Y PALABRA ACTIVA */
+
 function escapeAssText(value) {
   return String(value ?? '')
     .replace(/[{}\\]/g, '')
@@ -763,27 +774,30 @@ PlayResX: ${playResX}
 PlayResY: ${playResY}
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Default,Arial,${fontSize},&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,4,1,2,35,35,${vertical ? 120 : 55},1
+Style: Default,Arial,${fontSize},&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,6,1,2,35,35,${vertical ? 140 : 60},1
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 `;
 
-  let events = '';
   const list = sourceWords
-    .filter(word => Number.isFinite(word.start) && Number.isFinite(word.end) && word.end > word.start)
+    .filter(word => word.text && word.text.trim() && Number.isFinite(word.start) && Number.isFinite(word.end) && word.end > word.start)
     .slice()
     .sort((a, b) => a.start - b.start);
+
+  const eventsList = [];
+  const windowSize = 7;
+  const maxStart = Math.max(0, list.length - windowSize);
 
   list.forEach((activeWord, activeIndex) => {
     if (activeWord.end <= clipStart || activeWord.start >= clipStart + clipDuration) return;
 
-    const firstIndex = Math.max(0, Math.min(activeIndex - 3, list.length - 7));
-    const visibleWords = list.slice(firstIndex, firstIndex + 7);
+    const firstIndex = Math.max(0, Math.min(activeIndex - 3, maxStart));
+    const visibleWords = list.slice(firstIndex, firstIndex + windowSize);
+
     const phrase = visibleWords.map((word, localIndex) => {
       const text = escapeAssText(word.text);
       if (!text) return '';
       const realIndex = firstIndex + localIndex;
-      // ASS almacena el color en BGR: 008AE154 equivale a #54E18A.
       return realIndex === activeIndex
         ? `{\\c&H008AE154&}${text}{\\c&H00FFFFFF&}`
         : text;
@@ -791,21 +805,31 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 
     if (!phrase) return;
 
-    const relativeStart = Math.max(0, activeWord.start - clipStart);
+    let relativeStart = Math.max(0, activeWord.start - clipStart);
     const nextWord = list[activeIndex + 1];
     let absoluteEnd = activeWord.end;
     if (nextWord && nextWord.start > activeWord.start) {
       absoluteEnd = Math.min(absoluteEnd, nextWord.start);
     }
-    const relativeEnd = Math.min(clipDuration, absoluteEnd - clipStart);
+    let relativeEnd = Math.min(clipDuration, absoluteEnd - clipStart);
 
-    // No crea eventos de duración cero ni extiende una palabra sobre la siguiente.
-    if (relativeEnd - relativeStart < 0.025) return;
+    if (eventsList.length > 0) {
+      const prev = eventsList[eventsList.length - 1];
+      if (relativeStart < prev.end) {
+        relativeStart = prev.end;
+      }
+    }
 
-    events += `Dialogue: 0,${assTime(relativeStart)},${assTime(relativeEnd)},Default,,0,0,0,,${phrase}\n`;
+    if (relativeEnd - relativeStart < 0.03) return;
+
+    eventsList.push({
+      start: relativeStart,
+      end: relativeEnd,
+      line: `Dialogue: 0,${assTime(relativeStart)},${assTime(relativeEnd)},Default,,0,0,0,,${phrase}\n`
+    });
   });
 
-  return header + events;
+  return header + eventsList.map(item => item.line).join('');
 }
 
 /* EXPORTAR MP4 */
@@ -888,11 +912,6 @@ async function exportMP4() {
       videoFilter += ',subtitles=subtitles.ass';
     }
 
-    /*
-      El recorte se hace antes de la entrada.
-      Así el audio y el vídeo empiezan en el mismo segundo.
-    */
-
     const args = [
       '-ss', String(start),
       '-i', 'input-video.mp4',
@@ -916,7 +935,7 @@ async function exportMP4() {
     const result = await ff.exec(args);
 
     if (result !== 0) {
-      throw new Error('FFmpeg no ha podido completar la exportación.');
+      throw new Error('FFmpeg no ha podido completar la exportación (código ' + result + ').');
     }
 
     const output = await ff.readFile('output.mp4');
