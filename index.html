@@ -206,7 +206,7 @@ $('loadYoutube').addEventListener('click', () => {
   setStatus('Vista previa de YouTube cargada. Para editar, generar subtítulos y exportar, sube el archivo original.');
 });
 
-/* CARGAR FFMPEG (ESM CORE + WORKER LOCAL DEL MISMO ORIGEN) */
+/* CARGAR FFMPEG */
 
 async function withTimeout(promise, ms, label) {
   let timer;
@@ -265,16 +265,26 @@ async function getFFmpeg() {
 
     setStatus('Descargando núcleo WASM…', 8);
 
-    const [coreURL, wasmURL] = await withTimeout(
-      Promise.all([
-        toBlobURL(base + '/ffmpeg-core.js', 'text/javascript'),
-        toBlobURL(base + '/ffmpeg-core.wasm', 'application/wasm')
-      ]),
-      60000,
-      'descargar ffmpeg-core.js y ffmpeg-core.wasm'
-    );
+    let coreURL = `${base}/ffmpeg-core.js`;
+    let wasmURL = `${base}/ffmpeg-core.wasm`;
+
+    try {
+      const [blobCore, blobWasm] = await withTimeout(
+        Promise.all([
+          toBlobURL(`${base}/ffmpeg-core.js`, 'text/javascript'),
+          toBlobURL(`${base}/ffmpeg-core.wasm`, 'application/wasm')
+        ]),
+        30000,
+        'descargar ffmpeg-core.js y ffmpeg-core.wasm'
+      );
+      coreURL = blobCore;
+      wasmURL = blobWasm;
+    } catch (blobErr) {
+      console.warn('[FFmpeg] Usando URLs directas del CDN para core/wasm:', blobErr);
+    }
 
     setStatus('Iniciando Worker de FFmpeg…', 12);
+    console.log('[FFmpeg] Llamando a instance.load con:', { workerURL, coreURL, wasmURL });
 
     await withTimeout(
       instance.load({
@@ -282,7 +292,7 @@ async function getFFmpeg() {
         coreURL,
         wasmURL
       }),
-      45000,
+      35000,
       'iniciar FFmpeg Worker'
     );
 
