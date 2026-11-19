@@ -200,7 +200,7 @@ $('loadYoutube').addEventListener('click', () => {
   setStatus('Vista previa de YouTube cargada. Para editar, generar subtítulos y exportar, sube el archivo original.');
 });
 
-/* DECODIFICACIÓN DE AUDIO 16 KHZ MONO SIN BLOQUEAR LA UI */
+/* DECODIFICACIÓN DE AUDIO 16 KHZ MONO SIN LÍMITE DE MB */
 
 function resampleTo16kMono(channelData, inputRate) {
   if (!channelData || !channelData.length) return new Float32Array(0);
@@ -225,28 +225,28 @@ async function getMono16kAudio() {
     throw new Error('Este navegador no permite procesar audio.');
   }
 
-  if (sourceFile.size > 150 * 1024 * 1024) {
-    throw new Error('El vídeo es demasiado grande para procesarlo en el navegador. Prueba con un clip de menos de 150 MB.');
+  setStatus('Leyendo pista de audio…', 18);
+  await yieldToUI();
+
+  let raw = null;
+  try {
+    raw = await sourceFile.arrayBuffer();
+  } catch {
+    throw new Error('No hay suficiente memoria en el navegador para leer este archivo tan grande. Recorta el vídeo original antes de subirlo.');
   }
 
-  setStatus('Leyendo archivo de vídeo…', 18);
-  await yieldToUI();
-  const raw = await sourceFile.arrayBuffer();
-
-  setStatus('Decodificando pista de audio…', 24);
+  setStatus('Decodificando audio…', 24);
   await yieldToUI();
 
   const ctx = new AudioContextClass();
   let audioBuffer = null;
 
   try {
-    audioBuffer = await Promise.race([
-      ctx.decodeAudioData(raw),
-      new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('Tiempo agotado al decodificar el audio del vídeo. Prueba con un MP4 más corto.')), 25000)
-      )
-    ]);
+    audioBuffer = await ctx.decodeAudioData(raw);
+  } catch {
+    throw new Error('No se pudo decodificar el audio del vídeo. Comprueba que tenga pista de audio y prueba con un MP4.');
   } finally {
+    raw = null;
     try { await ctx.close(); } catch {}
   }
 
@@ -462,8 +462,7 @@ async function makeSubtitles() {
 
     setStatus(
       'Error al crear subtítulos: ' +
-      (error.message || error) +
-      '. Prueba con un vídeo MP4 más corto.'
+      (error.message || error)
     );
 
   } finally {
